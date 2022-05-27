@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prodyme</title>
+    <style>
+   body {
+  font-family: sans-serif;
+}
+.columns {
+  margin: 0 auto;
+  background: #d3d3d3;
+  width: 500px;
+  padding: 3px;
+  display: flex;
+}
+.card {
+  width: 100%;
+  display: inline-block;
+  margin-right: 1.2%;
+  height: 80px;
+  font-size: 50px;
+  background: #ff1493;
+  border: 1px solid #ff1493;
+  box-sizing: border-box;
+  color: #fff;
+  line-height: 120px;
+  vertical-align: middle;
+  text-align: center;
+}
+.card:last-child {
+  margin-right: 0;
+}
+.card:nth-child(2) {
+  background: #1e90ff;
+  border-color: #1e90ff;
+}
+.card:nth-child(3) {
+  background: #00ced1;
+  border-color: #00ced1;
+}
+.card.dragging {
+  opacity: 0.5;
+}
+.card.over {
+  border: 3px dashed #000;
+}
+[draggable] {
+  user-select: none;
+}
+#mid{
+    background: none !important;
+}
+#btn{
+    opacity: 0;
+}
+/* #btn:hover{
+    opacity: 1;
+} */
+    </style>
+</head>
+<body>
+    <div style="max-height:500px ;">
+<div style="height: 172px; max-height:172px ;">
+<div class="columns">
+    <button style="position: absolute; margin-top:70px ; margin-left:33px;    display: flex;
+    width: 50px;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    border-radius: 15px;
+
+    " id="btn" >
+        <p>+</p>
+    <img src="./icons8-delete.svg" alt="" style="width:20px ; height:20px ;" onclick="dele()">
+    </button>
+
+  <div class="card" draggable="true">
+      <div style="width:100%; height: 100%; background:yellow ;"></div>
+  </div>
+  <div class="card" draggable="true">bb</div>
+  <div class="card" draggable="true">C</div>
+   <div class="card" draggable="true">d</div>
+</div>
+<div class="columns" id="second">
+  <div class="card" draggable="true">aa
+  </div>
+  <div class="card" draggable="true">B</div>
+  <div class="card" draggable="true">C</div>
+   <div class="card" draggable="true">d</div>
+</div>
+
+</div>
+<div style="height: 172px; max-height:172px ;">
+
+<div class="columns">
+  <div class="card" draggable="true" id="mid"></div>
+  <div class="card" draggable="true" id="mid"></div>
+  <div class="card" draggable="true" id="mid"></div>
+   <div class="card" draggable="true" id="mid"></div>
+</div>
+<div class="columns">
+    <div class="card" draggable="true" id="mid"></div>
+    <div class="card" draggable="true" id="mid"></div>
+    <div class="card" draggable="true" id="mid"></div>
+     <div class="card" draggable="true" id="mid"></div>
+  </div>
+</div>
+<div style="height: 172px; max-height:172px ;">
+
+  <div class="columns">
+    <div class="card" draggable="true">Aaa</div>
+    <div class="card" draggable="true">B</div>
+    <div class="card" draggable="true">C</div>
+     <div class="card" draggable="true">d</div>
+  </div>
+  <div class="columns">
+    <div class="card" draggable="true">Aaa</div>
+    <div class="card" draggable="true">B</div>
+    <div class="card" draggable="true">C</div>
+     <div class="card" draggable="true">d</div>
+  </div>
+  </div>
+</div>
+    <script>
+        var columns = document.querySelectorAll('.card') || document.querySelectorAll(".card");
+var draggingClass = 'dragging';
+var dragSource;
+
+Array.prototype.forEach.call(columns, function (col) {
+  col.addEventListener('dragstart', handleDragStart, false);
+  col.addEventListener('dragenter', handleDragEnter, false)
+  col.addEventListener('dragover', handleDragOver, false);
+  col.addEventListener('dragleave', handleDragLeave, false);
+  col.addEventListener('drop', handleDrop, false);
+  col.addEventListener('dragend', handleDragEnd, false);
+});
+
+function handleDragStart (evt) {
+  dragSource = this;
+  evt.target.classList.add(draggingClass);
+  evt.dataTransfer.effectAllowed = 'move';
+  evt.dataTransfer.setData('text/html', this.innerHTML);
+}
+
+function handleDragOver (evt) {
+  evt.dataTransfer.dropEffect = 'move';
+  evt.preventDefault();
+}
+
+function handleDragEnter (evt) {
+  this.classList.add('over');
+}
+
+function handleDragLeave (evt) {
+  this.classList.remove('over');
+}
+
+function handleDrop (evt) {
+  evt.stopPropagation();
+  
+  if (dragSource !== this) {
+    dragSource.innerHTML = this.innerHTML;
+    this.innerHTML = evt.dataTransfer.getData('text/html');
+  }
+  
+  evt.preventDefault();
+}
+
+function handleDragEnd (evt) {
+  Array.prototype.forEach.call(columns, function (col) {
+    ['over', 'dragging'].forEach(function (className) {
+      col.classList.remove(className);
+    });
+  });
+}
+window.addEventListener("dblclick",()=>{
+    console.log("click")
+    document.getElementById("btn").style.opacity="1"
+})
+function dele(){
+    document.getElementById("second").style.display='none'
+}
+    </script>
+</body>
+</html>
